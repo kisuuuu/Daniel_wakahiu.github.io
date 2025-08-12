@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniel Wakahiu | Cyber Security Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Global Styles */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Lato', sans-serif; /* Readable body font */
+      background-color: #F0F0F0; /* Light Grey / Off-White */
+      color: #333333; /* Dark Grey for contrast */
+      overflow-x: hidden;
+      height: auto;
+      line-height: 1.6;
+      font-size: 1.1rem; /* Increased base text size */
+    }
+
+    /* Headings */
+    h1, h2, h3 {
+      font-family: 'Montserrat', sans-serif; /* Distinct heading font */
+      color: #2C3E50; /* Midnight Blue as main formal accent */
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-shadow: 0 0 15px rgba(44, 62, 80, 0.5); /* Subtle glow */
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      border-bottom: 2px solid #007BFF; /* Standard Blue underline */
+      display: inline-block;
+      padding-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #2C3E50; /* Match body text but bolder */
+    }
+
+    /* Sections */
+    .section {
+      padding: 80px 20px;
+      max-width: 960px; /* Wider content area */
+      margin: auto;
+      position: relative;
+      z-index: 10;
+      background-color: transparent; /* Sections float above background */
+    }
+
+    /* Background Canvas */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      opacity: 0.7; /* Slightly less prominent */
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh; /* Full viewport height */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent overlay */
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+      position: relative;
+      z-index: 10;
+      padding: 20px;
+    }
+
+    .hero p {
+      font-size: 1.3rem; /* Increased text size */
+      max-width: 600px;
+      text-align: center;
+      margin-top: 20px;
+      color: #444444; /* Darker shade for better contrast */
+    }
+
+    .typing-text {
+      font-size: 2.5rem;
+      height: 60px;
+      overflow: hidden;
+      white-space: nowrap;
+      color: #007BFF; /* Standard Blue for typing text */
+      font-weight: 600;
+      opacity: 0; /* Start hidden */
+      transition: opacity 1s ease-in-out; /* Smooth transition */
+      text-align: center;
+      width: 100%; /* Allow full width for text */
+    }
+
+    .typing-text.show-text {
+      opacity: 1; /* Fade in */
+    }
+
+    /* CTA Buttons */
+    .cta-buttons {
+      text-align: center;
+      margin-top: 40px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .cta-buttons button {
+      padding: 15px 30px;
+      margin: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-buttons button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 50%;
+      transition: all 0.6s ease;
+      z-index: 1;
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    .cta-buttons button:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+
+    .cta-buttons button span {
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-cv {
+      background-color: #2C3E50; /* Midnight Blue */
+      color: white;
+    }
+
+    .btn-cv:hover {
+      background-color: #34495E; /* Slightly lighter Midnight Blue */
+      box-shadow: 0 0 20px rgba(44, 62, 80, 0.4);
+    }
+
+    .btn-contact {
+      background-color: #007BFF; /* Standard Blue */
+      color: white;
+    }
+
+    .btn-contact:hover {
+      background-color: #0069D9; /* Darker Standard Blue */
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.4);
+    }
+
+    /* Skills Section */
+    .skills h3 {
+      text-align: left;
+      margin-top: 40px;
+      margin-bottom: 15px;
+      color: #2C3E50; /* Accent for subheadings */
+      border-bottom: 1px solid rgba(0, 123, 255, 0.3); /* Subtle border */
+      padding-bottom: 5px;
+    }
+
+    .skill {
+      margin: 25px 0;
+      opacity: 0; /* Hidden initially for fade-in */
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .skill.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .skill span {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #333333;
+      font-weight: 700;
+      font-size: 1em; /* Adjusted relative to body font size */
+    }
+
+    .progress-bar {
+      width: 100%;
+      background-color: #DDDDDD; /* Lighter grey for progress bar background */
+      border-radius: 10px;
+      overflow: hidden;
+      height: 25px;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
+      border: 1px solid rgba(44, 62, 80, 0.3);
+    }
+
+    .fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2C3E50, #007BFF); /* Midnight Blue to Standard Blue gradient */
+      width: 0;
+      transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother animation */
+      box-shadow: 0 0 10px rgba(44, 62, 80, 0.5); /* Glow on fill */
+    }
+
+    /* Projects & Achievements Section */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .project-item {
+      background-color: #1a1a1a; /* Dark background for cards */
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Darker, more prominent shadow */
+      border: 1px solid rgba(0, 123, 255, 0.4); /* Slightly more opaque blue border */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0, 123, 255, 0.5); /* Stronger glow on hover */
+    }
+
+    .project-item h3 {
+      color: #cccccc; /* Lighter shade of gray for item titles on dark background */
+      margin-top: 0;
+      margin-bottom: 15px;
+      text-align: left;
+      font-size: 1.6em;
+    }
+
+    .project-item p {
+      line-height: 1.7;
+      margin-bottom: 20px;
+      color: #e0e0e0; /* Light grey for body text on dark background */
+      font-size: 1.1rem; /* Increased text size */
+    }
+
+    .project-item .project-link {
+      display: inline-flex;
+      align-items: center;
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+    }
+
+    .project-item .project-link:hover {
+      background-color: #0069D9;
+      transform: translateY(-3px);
+    }
+
+    .project-item .project-link i {
+      margin-right: 8px;
+    }
+
+    /* Certifications & Education Section */
+    .cert-edu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
+
+    .cert-item, .edu-item {
+      background-color: #1a1a1a; /* Dark background for cards */
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Darker shadow */
+      border: 1px solid rgba(0, 123, 255, 0.4); /* Blue border for contrast */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cert-item:hover, .edu-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5); /* Stronger glow on hover */
+    }
+
+    .cert-item h3, .edu-item h3 {
+      color: #cccccc; /* Lighter shade of gray for item titles on dark background */
+      margin-top: 0;
+      margin-bottom: 8px;
+      text-align: left;
+      font-size: 1.4em;
+    }
+
+    .cert-item p, .edu-item p {
+      margin: 5px 0;
+      font-size: 1.1em; /* Increased text size */
+      color: #e0e0e0; /* Light grey for body text on dark background */
+    }
+
+    .cert-item strong, .edu-item strong {
+        color: #f0f0f0; /* Lighter white for strong text */
+    }
+
+    /* Contact Form */
+    .contact-form form {
+      background-color: #FDFDFD;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(0, 123, 255, 0.2);
+    }
+
+    .contact-form label {
+      color: #2C3E50;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+      padding: 12px;
+      border: 1px solid #007BFF;
+      border-radius: 5px;
+      background-color: #FFFFFF;
+      color: #333333;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      width: calc(100% - 24px); /* Account for padding */
+      margin-bottom: 20px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-form input[type="text"]:focus,
+    .contact-form input[type="email"]:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: #2C3E50;
+      box-shadow: 0 0 10px rgba(44, 62, 80, 0.3);
+    }
+
+    .contact-form textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .contact-form button[type="submit"] {
+      background-color: #007BFF;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+    }
+
+    .contact-form button[type="submit"]:hover {
+      background-color: #0069D9;
+      box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+      transform: translateY(-3px);
+    }
+
+    /* Footer Styles */
+    footer {
+      background-color: #E0E0E0; /* Light grey footer */
+      color: #555555;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid rgba(0, 123, 255, 0.3);
+    }
+
+    .footer-social-links {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .footer-social-links a {
+      color: #555555;
+      font-size: 2.2em;
+      transition: color 0.3s ease, transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .footer-social-links a:hover {
+      color: #2C3E50;
+      transform: translateY(-5px) scale(1.1);
+    }
+
+    /* Navigation Bar Styles */
+    .nav-toggle {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      z-index: 100;
+      background: none;
+      border: none;
+      color: #2C3E50; /* Midnight Blue */
+      font-size: 2.5em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: rgba(220, 220, 220, 0.8); /* Lighter translucent background */
+      box-shadow: 0 0 15px rgba(44, 62, 80, 0.4); /* Glow */
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .nav-toggle:hover {
+      transform: scale(1.1);
+      background-color: rgba(44, 62, 80, 0.1);
+    }
+
+    .nav-sidebar {
+      position: fixed;
+      top: 0;
+      right: -320px; /* Slightly wider */
+      width: 320px;
+      height: 100%;
+      background-color: #FDFDFD; /* Near white for sidebar */
+      box-shadow: -8px 0 20px rgba(0, 0, 0, 0.3);
+      z-index: 99;
+      transition: right 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bouncy transition */
+      display: flex;
+      flex-direction: column;
+      padding-top: 100px;
+      align-items: center;
+      overflow-y: auto; /* Added for scrollability */
+    }
+
+    .nav-sidebar.open {
+      right: 0;
+    }
+
+    .profile-pic-container {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .profile-pic-container img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid #007BFF; /* Standard Blue border */
+      object-fit: cover;
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+    }
+
+    .profile-pic-container p {
+      margin-top: 15px;
+      color: #2C3E50; /* Accent color */
+      font-size: 1.3em;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(44, 62, 80, 0.3);
+    }
+
+    .nav-links {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .nav-links li {
+      margin: 25px 0;
+    }
+
+    .nav-links a {
+      color: #555555;
+      text-decoration: none;
+      font-size: 1.4em; /* Increased text size */
+      transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+      display: block;
+      padding: 12px 0;
+      width: 100%;
+      position: relative;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background-color: #2C3E50;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::before {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: #2C3E50;
+      transform: translateX(15px);
+      text-shadow: 0 0 10px rgba(44, 62, 80, 0.5);
+    }
+
+    .sidebar-social-links {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      width: 100%;
+      padding-bottom: 30px;
+      border-top: 1px solid rgba(44, 62, 80, 0.2);
+      padding-top: 30px;
+    }
+
+    .sidebar-social-links a {
+      color: #555555;
+      font-size: 2em;
+      transition: color 0.3s ease, transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .sidebar-social-links a:hover {
+      color: #007BFF;
+      transform: translateY(-5px) scale(1.1);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      h2 {
+        font-size: 2rem;
+      }
+      .typing-text {
+        font-size: 1.8rem;
+        height: 40px;
+      }
+      .section {
+        padding: 60px 15px;
+      }
+      .nav-toggle {
+        top: 15px;
+        right: 15px;
+        font-size: 2em;
+        width: 50px;
+        height: 50px;
+      }
+      .nav-sidebar {
+        width: 250px;
+        right: -250px;
+        padding-top: 60px;
+      }
+      .profile-pic-container img {
+        width: 100px;
+        height: 100px;
+      }
+      .profile-pic-container p {
+        font-size: 1em;
+      }
+      .nav-links a {
+        font-size: 1.1em;
+      }
+      .sidebar-social-links {
+        font-size: 1.5em;
+      }
+      .project-item {
+        padding: 20px;
+      }
+      .cert-item, .edu-item {
+        padding: 20px;
+      }
+      .contact-form form {
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 2rem;
+        }
+        h2 {
+            font-size: 1.8rem;
+        }
+        .typing-text {
+            font-size: 1.5rem;
+        }
+        .cta-buttons button {
+            padding: 12px 25px;
+            font-size: 1rem;
+        }
+        .section {
+            padding: 40px 10px;
+        }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle Navigation">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <div class="nav-sidebar" id="navSidebar">
+    <div class="profile-pic-container">
+      <img src="https://picsum.photos/140" alt="Daniel Wakahiu Profile Picture">
+      <p>Daniel Wakahiu</p>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about" class="nav-link">About Me</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#certifications" class="nav-link">Certifications & Education</a></li>
+      <li><a href="#contact-form-section" class="nav-link">Get in Touch</a></li>
+    </ul>
+    <div class="sidebar-social-links">
+      <a href="https://www.linkedin.com/in/stanley-githinji-a28649211/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Stanley9646" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" target="_blank" aria-label="X (formerly Twitter)"><i class="fab fa-twitter"></i></a>
+      <a href="#" target="_blank" aria-label="Indeed"><i class="fas fa-briefcase"></i></a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Hello, I'm Daniel Wakahiu</h1>
+    <div class="typing-text" id="typing"></div>
+    <p>A dedicated Cybersecurity Analyst safeguarding digital landscapes with precision and innovation.</p>
+    <div class="cta-buttons">
+      <a href="Stanley_CV.pdf" download><button class="btn-cv"><span>Download CV</span></button></a>
+      <a href="#contact-form-section"><button class="btn-contact"><span>Contact Me</span></button></a>
+    </div>
+  </div>
+
+  <div class="section about" id="about">
+    <h2><i class="fas fa-user-shield"></i> About Me</h2>
+    <p>I'm Daniel Wakahiu Gathuma, a highly analytical and proactive Cybersecurity Analyst driven by a passion for protecting digital assets and enhancing organizational resilience against evolving cyber threats. My expertise spans ethical hacking, advanced threat detection, and comprehensive vulnerability management.</p>
+    <p>My approach is rooted in a blend of deep technical knowledge and strategic foresight, enabling me to identify critical security gaps and implement robust, forward-thinking solutions. I am adept at performing intricate penetration tests, meticulously analyzing network logs, and crafting resilient security policies that align with industry best practices and regulatory compliance.</p>
+    <p>Committed to continuous professional development, I thrive in dynamic environments where precision, persistence, and innovative problem-solving are paramount. I am eager to contribute to teams dedicated to fortifying digital infrastructures and ensuring secure, seamless user experiences.</p>
+  </div>
+
+  <div class="section skills" id="skills">
+    <h2><i class="fas fa-cogs"></i> Core Competencies</h2>
+    <h3>Technical Skills</h3>
+    <div class="skill" data-progress="85">
+      <span>Threat Intelligence Analysis <span>85%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="90">
+      <span>Incident Response & Forensics <span>90%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="80">
+      <span>Vulnerability Assessment & Pen Testing <span>80%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="88">
+      <span>Network Security & Protocols <span>88%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="82">
+      <span>SIEM & Log Management <span>82%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="75">
+      <span>Cloud Security (AWS/Azure/GCP) <span>75%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="85">
+      <span>Data Protection & Cryptography <span>85%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="80">
+      <span>Operating System Security (Windows/Linux) <span>80%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="70">
+      <span>Programming & Scripting (Python/PowerShell) <span>70%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="78">
+      <span>Security Architecture Review <span>78%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="87">
+      <span>Compliance & Security Frameworks (NIST, ISO) <span>87%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="84">
+      <span>Threat Hunting & Malware Analysis <span>84%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+
+    <h3>Professional & Soft Skills</h3>
+    <div class="skill" data-progress="95">
+      <span>Analytical & Critical Thinking <span>95%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="92">
+      <span>Problem-Solving & Decision Making <span>92%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="90">
+      <span>Adaptability & Continuous Learning <span>90%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="93">
+      <span>Attention to Detail & Accuracy <span>93%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+    <div class="skill" data-progress="88">
+      <span>Communication & Collaboration <span>88%</span></span>
+      <div class="progress-bar"><div class="fill"></div></div>
+    </div>
+  </div>
+
+  <div class="section projects" id="projects">
+    <h2><i class="fas fa-folder-open"></i> Projects & Key Achievements</h2>
+    <div class="project-grid">
+      <div class="project-item">
+        <h3>Proactive Threat Hunting & Analysis</h3>
+        <p>Led a initiative to proactively hunt for advanced persistent threats (APTs) within the network infrastructure. Utilized various threat intelligence feeds and SIEM correlation rules to identify sophisticated attack patterns, preventing potential data breaches before impact.</p>
+        <a href="#" class="project-link" target="_blank"><i class="fas fa-file-alt"></i> View Case Study (Placeholder)</a>
+      </div>
+      <div class="project-item">
+        <h3>Automated Security Script Development</h3>
+        <p>Developed Python scripts to automate routine security tasks such as log parsing, vulnerability scanning, and alert triage. This automation significantly reduced manual effort by 30% and improved the efficiency of the security operations center.</p>
+        <a href="https://github.com/Stanley9646/Security-Automation-Scripts" class="project-link" target="_blank"><i class="fab fa-github"></i> View on GitHub</a>
+      </div>
+      <div class="project-item">
+        <h3>Cloud Security Posture Management Implementation</h3>
+        <p>Implemented and configured Cloud Security Posture Management (CSPM) tools for AWS environment, ensuring continuous compliance with industry benchmarks (e.g., CIS Benchmarks). Addressed misconfigurations and access control vulnerabilities across multiple cloud services.</p>
+        <a href="#" class="project-link" target="_blank"><i class="fas fa-cloud"></i> Learn More (Placeholder)</a>
+      </div>
+      <div class="project-item">
+        <h3>Security Awareness Training Program</h3>
+        <p>Designed and delivered engaging security awareness training sessions for over 200 employees, covering topics like phishing, social engineering, and data handling. Increased employee understanding of cybersecurity risks by 40% as measured by post-training quizzes.</p>
+        <a href="#" class="project-link" target="_blank"><i class="fas fa-chalkboard-teacher"></i> View Training Outline (Placeholder)</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section education-certs" id="certifications">
+    <h2><i class="fas fa-award"></i> Certifications & Education</h2>
+    <div class="cert-edu-grid">
+        <div class="edu-item">
+            <h3>Bachelor of Science in Computer Science</h3>
+            <p><strong>University:</strong> Egerton University</p>
+            <p><strong>Graduation:</strong> December, 2022</p>
+            <p>Relevant Coursework: Network Security, Data Structures & Algorithms, Operating Systems, Database Management</p>
+        </div>
+        <div class="cert-item">
+            <h3>CompTIA Security+ (SY0-601)</h3>
+            <p><strong>Issuing Body:</strong> CompTIA</p>
+            <p><strong>Date Issued:</strong> March, 2023</p>
+            <p>Covers core security functions and hands-on practical skills.</p>
+        </div>
+        <div class="cert-item">
+            <h3>Certified Ethical Hacker (CEH)</h3>
+            <p><strong>Issuing Body:</strong> EC-Council</p>
+            <p><strong>Date Issued:</strong> August, 2023</p>
+            <p>Proficient in ethical hacking phases: reconnaissance, gaining access, enumeration, maintaining access, and covering tracks.</p>
+        </div>
+        <div class="cert-item">
+            <h3>(Optional: Add other relevant certifications)</h3>
+            <p><strong>Certification Name:</strong> [e.g., CompTIA CySA+, OSCP, CISSP]</p>
+            <p><strong>Issuing Body:</strong> [Issuing Body]</p>
+            <p><strong>Date Issued:</strong> [Month, Year]</p>
+        </div>
+    </div>
+  </div>
+
+  <div class="section contact-form" id="contact-form-section">
+    <h2><i class="fas fa-envelope"></i> Get in Touch</h2>
+    <p style="text-align: center; max-width: 600px; margin: 0 auto 30px;">I'm always open to new opportunities and collaborations. Feel free to reach out!</p>
+    <form action="YOUR_FORM_SUBMISSION_ENDPOINT" method="POST"> <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required placeholder="Your Full Name">
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" name="subject" required placeholder="Regarding a Job Opportunity / Collaboration">
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required placeholder="Tell me about your project or inquiry..."></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Daniel Wakahiu. All rights reserved.</p>
+    <div class="footer-social-links">
+      <a href="https://www.linkedin.com/in/stanley-githinji-a28649211/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Stanley9646" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" target="_blank" aria-label="X (formerly Twitter)"><i class="fab fa-twitter"></i></a>
+      <a href="#" target="_blank" aria-label="Indeed"><i class="fas fa-briefcase"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    const text = [
+      "A Security Analyst",
+      "An Ethical Hacker",
+      "A Threat Intelligence Researcher",
+      "A Defender of Digital Infrastructure",
+      "A Vulnerability Assessment Specialist"
+    ];
+    let index = 0;
+    const typingElement = document.getElementById("typing");
+
+    function animateText() {
+      // Set text and fade in
+      typingElement.textContent = text[index];
+      typingElement.classList.add("show-text");
+
+      setTimeout(() => {
+        // Fade out after display duration
+        typingElement.classList.remove("show-text");
+        setTimeout(() => {
+          // Move to next text after fade out completes
+          index = (index + 1) % text.length;
+          animateText();
+        }, 1000); // This should match CSS transition duration for fade-out
+      }, 2000); // Display text for 2 seconds
+    }
+
+    animateText(); // Start the animation
+
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // Particle colors based on the new scheme
+    const particleColor = "#2C3E50"; // Midnight Blue
+    const lineColor = "rgba(44, 62, 80, 0.5)"; // Lighter Midnight Blue for lines
+
+    const particles = Array.from({ length: 100 }, () => ({ // Increased particles
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 1.5, // Slightly faster movement
+      vy: (Math.random() - 0.5) * 1.5,
+      radius: Math.random() * 2.5 + 1.5 // Slightly larger particles
+    }));
+
+    function drawParticles() {
+      ctx.fillStyle = "rgba(240, 240, 240, 0.4)"; // Fills with semi-transparent background for fade effect
+      ctx.fillRect(0, 0, width, height);
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce off edges
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = particleColor;
+        ctx.fill();
+      });
+
+      // Draw lines between close particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 150) { // Increased connection distance
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(44, 62, 80, ${1 - dist / 150})`; // Lines fade with distance
+            ctx.lineWidth = 0.5; // Thinner lines
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles(); // Start the particle animation
+
+    // Skill bar animation on scroll
+    document.addEventListener('DOMContentLoaded', () => {
+      const skillElements = document.querySelectorAll('.skill');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1 // Trigger when 10% of the element is visible
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const skillFill = entry.target.querySelector('.fill');
+            const progress = entry.target.dataset.progress;
+            skillFill.style.width = `${progress}%`;
+            entry.target.classList.add('visible'); // Add visible class for fade-in
+            observer.unobserve(entry.target); // Stop observing once animated
+          }
+        });
+      }, observerOptions);
+
+      skillElements.forEach(skill => {
+        observer.observe(skill);
+      });
+    });
+
+    // Navigation bar toggle functionality
+    const navToggle = document.getElementById('navToggle');
+    const navSidebar = document.getElementById('navSidebar');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navToggle.addEventListener('click', () => {
+      navSidebar.classList.toggle('open');
+    });
+
+    // Close nav when a link is clicked
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navSidebar.classList.remove('open');
+      });
+    });
+
+    // Close nav when clicking outside (optional, but good for UX)
+    document.addEventListener('click', (event) => {
+      if (!navSidebar.contains(event.target) && !navToggle.contains(event.target)) {
+        navSidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>
